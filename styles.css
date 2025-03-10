@@ -1,0 +1,1288 @@
+/* Base styles and variables */
+:root {
+    /* macOS Sequoia-inspired color palette */
+    --yellow-center: #FFD98A;
+    --orange-ray: #FF914D;
+    --purple-ray: #C88CFF;
+    --blue-light: #70AFFF;
+    --blue-deep: #005EB8;
+    
+    /* Light theme colors */
+    --background-primary: #ffffff;
+    --background-secondary: rgba(255, 255, 255, 0.4);
+    --text-primary: #1d1d1f;
+    --text-secondary: #5a5a5e;
+    --accent-color: var(--blue-light);
+    --border-color: rgba(210, 210, 215, 0.5);
+    --card-background: rgba(255, 255, 255, 0.75);
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --hero-overlay: rgba(255, 255, 255, 0.25);
+    --visual-element-bg: linear-gradient(135deg, var(--blue-light), var(--purple-ray));
+}
+
+.dark-mode {
+    /* Dark theme colors */
+    --background-primary: #0c0c0e;
+    --background-secondary: rgba(12, 12, 14, 0.4);
+    --text-primary: #f5f5f7;
+    --text-secondary: #ababae;
+    --accent-color: var(--blue-light);
+    --border-color: rgba(66, 66, 69, 0.5);
+    --card-background: rgba(30, 30, 32, 0.75);
+    --card-shadow: rgba(0, 0, 0, 0.3);
+    --hero-overlay: rgba(0, 0, 0, 0.2);
+    --visual-element-bg: linear-gradient(135deg, var(--purple-ray), var(--blue-light));
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    height: 100%;
+    transition: background-color 0.5s ease;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background-color: var(--background-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    min-height: 100%;
+    overflow-x: hidden;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* macOS Sequoia Ray Pattern Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        /* Main ray gradient from top center */
+        radial-gradient(
+            circle at 50% 0%,
+            transparent 10%,
+            rgba(255, 255, 255, 0.05) 15%
+        ),
+        conic-gradient(
+            from 270deg at 50% 0%,
+            var(--blue-deep) 0deg,
+            var(--blue-light) 20deg,
+            var(--purple-ray) 40deg,
+            var(--orange-ray) 60deg,
+            var(--yellow-center) 70deg,
+            var(--orange-ray) 80deg,
+            var(--purple-ray) 100deg,
+            var(--blue-light) 120deg,
+            var(--blue-deep) 140deg,
+            var(--blue-deep) 220deg,
+            var(--blue-light) 240deg,
+            var(--purple-ray) 260deg,
+            var(--orange-ray) 280deg,
+            var(--yellow-center) 290deg,
+            var(--orange-ray) 300deg,
+            var(--purple-ray) 320deg,
+            var(--blue-light) 340deg,
+            var(--blue-deep) 360deg
+        );
+    z-index: -2;
+    opacity: 0.85;
+}
+
+.dark-mode body::before {
+    opacity: 0.7;
+}
+
+/* Enhanced ray pattern for depth */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        /* Subtle radial overlay to enhance center brightness */
+        radial-gradient(
+            ellipse at 50% 0%, 
+            rgba(255, 217, 138, 0.2) 0%, 
+            rgba(255, 217, 138, 0.1) 20%, 
+            transparent 60%
+        ),
+        /* Subtle repeating ray pattern for additional texture */
+        repeating-conic-gradient(
+            from 270deg at 50% 0%,
+            transparent 0deg,
+            transparent 20deg,
+            rgba(255, 255, 255, 0.03) 20deg,
+            rgba(255, 255, 255, 0.03) 22deg
+        );
+    mix-blend-mode: soft-light;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+.dark-mode body::after {
+    opacity: 0.5;
+    mix-blend-mode: color-dodge;
+}
+
+/* Additional subtle overlay to enhance the top light source */
+.light-source {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(
+        circle,
+        rgba(255, 217, 138, 0.4) 0%,
+        rgba(255, 145, 77, 0.2) 50%,
+        transparent 80%
+    );
+    filter: blur(30px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+    border: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(90deg, 
+        #2070d8, /* Darker blue */
+        #a14ad9, /* Darker purple */
+        #e6632d); /* Darker orange */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    text-shadow: 0px 1px 1px rgba(0,0,0,0.05); /* Subtle text shadow for depth */
+}
+
+.title-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, var(--blue-light), var(--purple-ray));
+    margin-left: 5px;
+    position: relative;
+    top: -15px;
+}
+
+/* Ray accents throughout the page */
+.ray-accent {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 0;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.ray-accent-1 {
+    width: 300px;
+    height: 300px;
+    background: var(--yellow-center);
+    top: -100px;
+    right: 15%;
+    mix-blend-mode: screen;
+}
+
+.ray-accent-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--purple-ray);
+    bottom: -200px;
+    left: 10%;
+    mix-blend-mode: screen;
+}
+
+.ray-accent-3 {
+    width: 350px;
+    height: 350px;
+    background: var(--blue-light);
+    top: 20%;
+    right: -100px;
+    mix-blend-mode: screen;
+    opacity: 0.2;
+}
+
+.dark-mode .ray-accent {
+    opacity: 0.3;
+}
+
+/* Visual rays around the main element */
+.visual-rays {
+    display: none; /* Hide completely */
+}
+
+/* Shine effect for poem cards */
+.poem-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.poem-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.1) 49%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 51%,
+        rgba(255, 255, 255, 0) 60%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    transition: all 0.8s;
+    opacity: 0;
+}
+
+.poem:hover .poem-shine::after {
+    opacity: 1;
+    transform: rotate(40deg) translateY(-100px);
+}
+
+.centered-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    background: linear-gradient(90deg, 
+        #2070d8, /* Darker blue */
+        #a14ad9, /* Darker purple */
+        #e6632d); /* Darker orange */
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0px 1px 1px rgba(0,0,0,0.05);
+    border: none;
+    background-color: transparent;
+}
+
+/* Updated floating header with more glass effect */
+header {
+    position: fixed;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px; /* Largeur réduite */
+    max-width: 90%;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border-radius: 100px;
+    padding: 0.6rem 0; /* Padding vertical réduit */
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: all 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+
+header.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(-50%) translateY(0) !important;
+    pointer-events: auto !important;
+}
+
+/* Remove the header line since we have floating header now */
+header::after {
+    display: none;
+}
+
+/* Adjust header container for floating header */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem; /* Padding horizontal réduit */
+}
+
+.site-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--blue-light), var(--purple-ray));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+    position: absolute;
+    left: 2rem;
+}
+
+/* Make main nav more compact */
+.main-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.nav-link {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        var(--blue-light), 
+        var(--purple-ray));
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Ensure theme toggle maintains proper vertical alignment */
+#theme-toggle {
+    margin-left: 1rem;
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+}
+
+#theme-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, 
+        var(--yellow-ray) 0%, 
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+#theme-toggle:hover::before {
+    opacity: 0.1;
+}
+
+.light-mode #theme-toggle .fa-sun {
+    display: none;
+}
+
+.dark-mode #theme-toggle .fa-moon {
+    display: none;
+}
+
+/* Hero section */
+.hero {
+    padding: 10rem 0 8rem; /* Increased top padding to accommodate floating header */
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+    background: none;
+    border: none;
+}
+
+.hero::before {
+    display: none;
+}
+
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+    border: none;
+    background: none;
+}
+
+.hero-content {
+    flex: 1;
+    border: none;
+    background: none;
+}
+
+.hero-text {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    line-height: 1.6;
+    border: none;
+    background: none;
+}
+
+.hero-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border: none;
+    background: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.visual-element {
+    width: 300px;
+    height: 300px;
+    background: var(--visual-element-bg);
+    border-radius: 50%;
+    opacity: 0.8;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+    animation: float 6s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.visual-element:hover {
+    transform: scale(1.03);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
+}
+
+/* Remove the ray pattern inside the visual element */
+.visual-element::before {
+    display: none; /* Hide completely */
+}
+
+@keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(90deg, 
+        var(--blue-light), 
+        var(--purple-ray));
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        var(--purple-ray), 
+        var(--blue-light));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.12);
+    opacity: 1;
+}
+
+.cta-button:hover::before {
+    opacity: 1;
+}
+
+/* Poems Section */
+#poems {
+    padding: 3rem 0 6rem;
+    background: none;
+    position: relative;
+    margin-top: -4rem;
+    z-index: 2;
+}
+
+/* Remove border and make container fully transparent with less defined edges */
+#poems .container {
+    padding: 3rem;
+    background: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 24px;
+    border: none;
+    box-shadow: none;
+}
+
+.dark-mode #poems .container {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.poems-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    border: none;
+    margin-top: 0;
+    padding-top: 0;
+    background: none;
+}
+
+.poem {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    cursor: pointer;
+}
+
+/* Ray pattern for poem cards */
+.poem::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        var(--blue-ray) 0deg,
+        transparent 60deg,
+        var(--purple-ray) 120deg,
+        transparent 180deg,
+        var(--orange-ray) 240deg,
+        transparent 300deg,
+        var(--blue-ray) 360deg
+    );
+    opacity: 0.05;
+    z-index: 0;
+    transform: rotate(0deg);
+    transition: transform 0.5s ease;
+}
+
+.poem:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px var(--card-shadow);
+}
+
+.poem:hover::before {
+    transform: rotate(30deg);
+}
+
+.poem > * {
+    position: relative;
+    z-index: 1;
+}
+
+.poem-number {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.poem-title {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    padding-right: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.poem-title::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        var(--blue-light), 
+        var(--purple-ray));
+}
+
+/* Poem content styling to show 3 lines */
+.poem-content {
+    white-space: pre-line;
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    flex-grow: 1;
+    position: relative;
+    height: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Show exactly 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Remove expanded state since we'll use popup instead */
+.poem-content.expanded {
+    display: block;
+    max-height: none;
+}
+
+/* Remove after element since we'll use popup */
+.poem-content::after {
+    display: none;
+}
+
+/* Poem popup overlay */
+.poem-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.poem-popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.poem-popup {
+    background: rgba(255, 255, 255, 0.95);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    border-radius: 16px;
+    padding: 3rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.dark-mode .poem-popup {
+    background: rgba(30, 30, 32, 0.95);
+}
+
+.poem-popup.active {
+    transform: translateY(0);
+}
+
+.poem-popup-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.poem-popup-content {
+    white-space: pre-line;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.poem-popup-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.poem-popup-date {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.close-popup {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.close-popup:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .close-popup:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Footer */
+footer {
+    position: relative;
+    background-color: var(--card-background);
+    border-top: 1px solid var(--border-color);
+    padding: 20px 0; /* Reduced from likely larger padding */
+    overflow: hidden;
+    z-index: 1;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        var(--blue-light), 
+        var(--purple-ray), 
+        var(--orange-ray), 
+        var(--yellow-center));
+    z-index: -1;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0; /* Reduced padding */
+}
+
+.copyright {
+    font-size: 0.85rem; /* Slightly smaller text */
+    color: var(--text-secondary);
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px; /* Smaller icons */
+    height: 32px; /* Smaller icons */
+    color: var(--text-secondary);
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+        var(--purple-ray) 0%,
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.social-link:hover {
+    color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+.social-link:hover::before {
+    opacity: 0.15;
+}
+
+/* Update read more indicator */
+.read-more-indicator {
+    display: block;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+}
+
+/* Dark mode specific styles */
+.dark-mode .poem {
+    background-color: rgba(30, 30, 32, 0.5);
+}
+
+.dark-mode .poem-content::after {
+    background: linear-gradient(to bottom, transparent, rgba(30, 30, 32, 0.5) 90%);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .visual-element {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .poems-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .header-container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .main-nav {
+        gap: 1rem;
+    }
+    
+    .hero {
+        padding: 4rem 0;
+    }
+    
+    #poems {
+        padding: 4rem 0;
+    }
+}
+
+/* Animation utilities */
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Ensure sections don't have borders */
+section {
+    border: none;
+    outline: none;
+    background: none;
+}
+
+main {
+    border: none;
+    background: none;
+}
+
+/* Share button styling */
+.share-button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 5; /* Ensure it's above other elements */
+}
+
+.share-button:hover {
+    color: var(--accent-color);
+    background-color: rgba(112, 175, 255, 0.1);
+}
+
+/* Add back the poem footer styling */
+.poem-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.poem-date {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Hamburger menu button */
+.hamburger-menu {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1060c8, #8630c9, #e6632d);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 101;
+    transition: all 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+    border: none;
+    padding: 0;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transform: translateY(-10px);
+}
+
+.hamburger-menu:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Hamburger icon */
+.hamburger-icon {
+    position: relative;
+    width: 20px;
+    height: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger-icon span {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    left: 0;
+}
+
+.hamburger-icon span:nth-child(1) {
+    top: 0;
+}
+
+.hamburger-icon span:nth-child(2) {
+    top: 6px; /* Ajusté pour centrer */
+}
+
+.hamburger-icon span:nth-child(3) {
+    top: 12px; /* Ajusté pour maintenir proportions */
+}
+
+/* Animated hamburger icon - active state */
+.hamburger-menu.active .hamburger-icon span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active .hamburger-icon span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-icon span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Header avec effet de lueur en mode sombre */
+.dark-mode header {
+    background-color: rgba(20, 20, 35, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
+                0 0 30px 5px rgba(112, 175, 255, 0.3), 
+                0 0 50px 10px rgba(200, 140, 255, 0.2);
+    border: 1px solid rgba(120, 130, 180, 0.3);
+    animation: headerGlow 6s ease-in-out infinite alternate;
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+}
+
+/* Animation de pulsation pour la barre flottante */
+@keyframes headerGlow {
+    0% {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
+                    0 0 30px 5px rgba(112, 175, 255, 0.3), 
+                    0 0 50px 10px rgba(200, 140, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
+                    0 0 40px 8px rgba(112, 175, 255, 0.4), 
+                    0 0 70px 15px rgba(200, 140, 255, 0.3);
+    }
+    100% {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
+                    0 0 50px 10px rgba(112, 175, 255, 0.5), 
+                    0 0 90px 20px rgba(200, 140, 255, 0.4);
+    }
+}
+
+/* Effet de lueur plus intense lorsque le menu est actif */
+.dark-mode header.active {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 60px 15px rgba(112, 175, 255, 0.6), 
+                0 0 100px 30px rgba(200, 140, 255, 0.5);
+}
+
+/* Scroll-based visibility classes */
+.header-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateX(-50%) translateY(-20px);
+    visibility: hidden !important;
+}
+
+.hamburger-visible {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Titre principal "Yacine" en mode sombre - plus clair */
+.dark-mode .site-title {
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.95), 
+        rgba(150, 200, 255, 0.95), 
+        rgba(200, 180, 255, 0.95));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Titres de section en mode sombre - plus clairs */
+.dark-mode .section-title {
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.95), 
+        rgba(175, 210, 255, 0.95), 
+        rgba(220, 200, 255, 0.95));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Texte de héros en mode sombre - plus clair */
+.dark-mode .hero-text {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Effet de lueur pour le cercle en mode sombre */
+.dark-mode .visual-element {
+    box-shadow: 0 0 60px 10px rgba(112, 175, 255, 0.4), 
+                0 0 100px 20px rgba(200, 140, 255, 0.3);
+    animation: float 6s ease-in-out infinite, glow 5s ease-in-out infinite alternate;
+    background: linear-gradient(135deg, 
+        rgba(112, 175, 255, 0.9), 
+        rgba(200, 140, 255, 0.9));
+}
+
+/* Cercle interne lumineux en mode sombre */
+.dark-mode .visual-element::before {
+    opacity: 0.9;
+    background: radial-gradient(circle at center, 
+        rgba(255, 217, 138, 0.95) 0%, 
+        rgba(255, 145, 77, 0.8) 30%, 
+        rgba(200, 140, 255, 0.6) 65%, 
+        rgba(90, 100, 150, 0.4) 100%);
+    filter: blur(10px);
+    transform: scale(0.85);
+    animation: pulse 6s ease-in-out infinite alternate;
+}
+
+/* Animation de pulsation pour le mode sombre */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 60px 10px rgba(112, 175, 255, 0.4), 
+                    0 0 100px 20px rgba(200, 140, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 70px 15px rgba(112, 175, 255, 0.5), 
+                    0 0 120px 25px rgba(200, 140, 255, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 80px 20px rgba(112, 175, 255, 0.6), 
+                    0 0 140px 30px rgba(200, 140, 255, 0.5);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.9;
+        transform: scale(0.85);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 0.95;
+        transform: scale(0.87);
+    }
+}
+
+/* Effet de rayonnement pour le cercle en mode sombre */
+.dark-mode .visual-rays {
+    opacity: 0.6;
+    filter: brightness(1.5) contrast(1.2);
+}
+
+.dark-mode .hamburger-menu {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Titre en haut à droite */
+.top-title {
+    position: fixed;
+    top: 1.5rem;
+    right: 2rem;
+    z-index: 102;
+}
+
+.top-title .site-title {
+    font-size: 1.8rem;
+    background: linear-gradient(90deg, var(--blue-light), var(--purple-ray));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(112, 175, 255, 0.5);
+    animation: titleGlow 5s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    0% {
+        text-shadow: 0 0 15px rgba(112, 175, 255, 0.5);
+    }
+    100% {
+        text-shadow: 0 0 25px rgba(200, 140, 255, 0.8);
+    }
+} 
